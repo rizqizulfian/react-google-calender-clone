@@ -12,7 +12,9 @@ const SmallCalendar = () => {
     setCurrentMonth(getMonth(currentMonthIdx));
   }, [currentMonthIdx]);
 
-  const { monthIndex } = useContext(GlobalContext);
+  const {
+    monthIndex, setSmallCalendarMonth, daySelected, setDaySelected,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonthIdx(monthIndex);
@@ -30,12 +32,20 @@ const SmallCalendar = () => {
     const format = "DD-MM-YY";
     const nowDay = dayjs().format(format);
     const currDay = day.format(format);
+    const selectedDay = daySelected && daySelected.format(format);
 
     if (nowDay === currDay) {
       return 'bg-blue-500 rounded-full text-white';
+    } else if (currDay === selectedDay) {
+      return 'bg-blue-100 rounded-full text-blue-600 font-bold';
     } else {
       return '';
     }
+  };
+
+  const handlerSetSmallCalendarMonth = (day) => {
+    setSmallCalendarMonth(currentMonthIdx);
+    setDaySelected(day);
   };
 
   return (
@@ -66,7 +76,13 @@ const SmallCalendar = () => {
         {currentMonth.map((row, i) => (
           <React.Fragment key={i}>
             {row.map((day, idx) => (
-              <button key={idx} className={`py-1 w-full ${getDayClass(day)}`}>
+              <button
+                key={idx}
+                onClick={() =>
+                  handlerSetSmallCalendarMonth(day)
+                }
+                className={`py-1 w-full ${getDayClass(day)}`
+                }>
                 <span className="text-sm">
                   {day.format('D')}
                 </span>
