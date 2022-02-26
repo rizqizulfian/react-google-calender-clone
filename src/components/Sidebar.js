@@ -1,10 +1,11 @@
 import React from 'react';
+import CreateEventButton from './CreateEventButton';
 
 const Sidebar = () => {
   return (
-    <div>
-      
-    </div>
+    <aside className="border p-5 w-64">
+      <CreateEventButton />
+    </aside>
   )
 }
 
