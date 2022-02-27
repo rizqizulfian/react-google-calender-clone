@@ -14,7 +14,6 @@ function App() {
   const { monthIndex, showEventModal } = useContext(GlobalContext);
 
   useEffect(() => {
-    console.log('ini woi', monthIndex)
     setCurrentMonth(getMonth(monthIndex));
   }, [monthIndex]);
 
