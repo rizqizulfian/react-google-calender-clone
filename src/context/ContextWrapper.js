@@ -72,7 +72,13 @@ const ContextWrapper = (props) => {
     if (smallCalendarMonth !== null) {
       setMonthIndex(smallCalendarMonth)
     }
-  }, [smallCalendarMonth])
+  }, [smallCalendarMonth]);
+
+  useEffect(() => {
+    if (!showEventModal) {
+      setSelectedEvent(null);
+    }
+  }, [showEventModal])
 
   return (
     <GlobalContext.Provider value={{
