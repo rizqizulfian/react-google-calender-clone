@@ -12,13 +12,20 @@ const labelsClasses = [
 
 
 const EventModal = () => {
-  const { setShowEventModal, daySelected, dispatchCalEvent } = useContext(GlobalContext);
+  const {
+    setShowEventModal,
+    daySelected,
+    dispatchCalEvent,
+    selectedEvent,
+  } = useContext(GlobalContext);
+
   const handlerCloseButton = () => {
     setShowEventModal(false);
   };
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [selectedLabel, setSelectedLabel] = useState(labelsClasses[0]);
+
+  const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : '');
+  const [description, setDescription] = useState(selectedEvent ? selectedEvent.description : '');
+  const [selectedLabel, setSelectedLabel] = useState(selectedEvent ? labelsClasses.find((lbl) => lbl === selectedEvent.label) : labelsClasses[0]);
 
   const handlerInputTitle = (e) => {
     setTitle(e.target.value);
@@ -39,12 +46,22 @@ const EventModal = () => {
       description,
       label: selectedLabel,
       day: daySelected.valueOf(),
-      id: Date.now(),
+      id: selectedEvent ? selectedEvent.id : Date.now(),
     };
-    dispatchCalEvent({ type: 'push', payload: calendarEvent });
+
+    if (selectedEvent) {
+      dispatchCalEvent({ type: 'update', payload: calendarEvent });
+    } else {
+      dispatchCalEvent({ type: 'push', payload: calendarEvent });
+    }
+
     setShowEventModal(false);
   }
 
+  const handlerClickDelete = () => {
+    dispatchCalEvent({ type: 'delete', payload: selectedEvent });
+    setShowEventModal(false);
+  }
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
       <form className="bg-white rounded-lg shadow-2xl w-1/4">
@@ -52,11 +69,20 @@ const EventModal = () => {
           <span className="material-icons-outlined text-gray-400">
             drag_handle
           </span>
-          <button onClick={handlerCloseButton}>
-            <span className="material-icons-outlined text-gray-400">
-              close
-            </span>
-          </button>
+          <div>
+            {selectedEvent && (
+              <span
+                onClick={handlerClickDelete}
+                className="material-icons-outlined text-gray-400 cursor-pointer">
+                delete
+              </span>
+            )}
+            <button onClick={handlerCloseButton}>
+              <span className="material-icons-outlined text-gray-400">
+                close
+              </span>
+            </button>
+          </div>
         </header>
         <div className="p-3">
           <div className="grid grid-cols-1/5 item-end gap-y-7">

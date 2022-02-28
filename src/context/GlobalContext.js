@@ -11,6 +11,8 @@ const GlobalContext = createContext({
   setShowEventModal: () => {},
   dispatchCalEvent: ({type, payload}) => {},
   savedEvents: [],
+  selectedEvent: null,
+  setSelectedEvent: () => {},
 });
 
 export default GlobalContext;
