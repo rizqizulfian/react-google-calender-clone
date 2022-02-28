@@ -30,6 +30,12 @@ const ContextWrapper = (props) => {
   const [savedEvents, dispatchCalEvent] = useReducer(savedEventsReducer, [], initEvents);
   const [labels, setLabels] = useState([]);
 
+  const updateLabel = (label) => {
+    setLabels(
+      labels.map((lbl) => (lbl.label === label.label ? label : lbl))
+    );
+  };
+
   useEffect(() => {
     localStorage.setItem('savedEvents', JSON.stringify(savedEvents))
   }, [savedEvents])
@@ -68,6 +74,7 @@ const ContextWrapper = (props) => {
       setSelectedEvent,
       labels,
       setLabels,
+      updateLabel,
     }}>
       {props.children}
     </GlobalContext.Provider>
