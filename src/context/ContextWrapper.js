@@ -49,6 +49,7 @@ const ContextWrapper = (props) => {
       showEventModal,
       setShowEventModal,
       dispatchCalEvent,
+      savedEvents,
     }}>
       {props.children}
     </GlobalContext.Provider>

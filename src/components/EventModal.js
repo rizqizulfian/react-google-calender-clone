@@ -70,11 +70,11 @@ const EventModal = () => {
               value={title}
               required
             />
-            <span className="material-icons-outlined text-gray-400">
+            <span className="material-icons-outlined text-gray-400 w-12">
               schedule
             </span>
             <p>{daySelected.format("dddd, MMMM DD")}</p>
-            <span className="material-icons-outlined text-gray-400">
+            <span className="material-icons-outlined text-gray-400 w-12">
               segment
             </span>
             <input type="text"
@@ -85,7 +85,7 @@ const EventModal = () => {
               value={description}
               required
             />
-            <span className="material-icons-outlined text-gray-400">
+            <span className="material-icons-outlined text-gray-400 w-12">
               bookmark_order
             </span>
             <div className="flex gap-x-2">
