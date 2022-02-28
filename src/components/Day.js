@@ -6,7 +6,7 @@ const Day = ({ day, rowIdx }) => {
   const {
     setDaySelected,
     setShowEventModal,
-    savedEvents,
+    filteredEvents,
     setSelectedEvent,
   } = useContext(GlobalContext);
 
@@ -25,9 +25,9 @@ const Day = ({ day, rowIdx }) => {
   };
 
   useEffect(() => {
-    const events = savedEvents.filter(evt => dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY"));
+    const events = filteredEvents.filter(evt => dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY"));
     setDayEvents(events);
-  }, [savedEvents, day])
+  }, [filteredEvents, day])
 
   return (
     <div className="border border-gray-200 flex flex-col">

@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useMemo,
+} from 'react';
 import dayjs from 'dayjs';
 import GlobalContext from './GlobalContext';
 
@@ -29,6 +34,17 @@ const ContextWrapper = (props) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [savedEvents, dispatchCalEvent] = useReducer(savedEventsReducer, [], initEvents);
   const [labels, setLabels] = useState([]);
+
+  // using memo, because we want to memorize these values
+  // we dont want to render this every time 
+  const filteredEvents = useMemo(() => {
+    return savedEvents.filter(evt =>
+      labels
+        .filter(lbl => lbl.checked)
+        .map(lbl => lbl.label)
+        .includes(evt.label)
+    );
+  }, [savedEvents, labels])
 
   const updateLabel = (label) => {
     setLabels(
@@ -75,6 +91,7 @@ const ContextWrapper = (props) => {
       labels,
       setLabels,
       updateLabel,
+      filteredEvents,
     }}>
       {props.children}
     </GlobalContext.Provider>
