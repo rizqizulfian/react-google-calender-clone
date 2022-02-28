@@ -28,9 +28,22 @@ const ContextWrapper = (props) => {
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [savedEvents, dispatchCalEvent] = useReducer(savedEventsReducer, [], initEvents);
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem('savedEvents',  JSON.stringify(savedEvents))
+    localStorage.setItem('savedEvents', JSON.stringify(savedEvents))
+  }, [savedEvents])
+
+  useEffect(() => {
+    setLabels((prevLabels) => {
+      return [...new Set(savedEvents.map((evt) => evt.label))].map((label) => {
+        const currentLabel = prevLabels.find((lbl) => lbl.label === label);
+        return {
+          label,
+          checked: currentLabel ? currentLabel.checked : true,
+        }
+      })
+    })
   }, [savedEvents])
 
   useEffect(() => {
@@ -53,6 +66,8 @@ const ContextWrapper = (props) => {
       savedEvents,
       selectedEvent,
       setSelectedEvent,
+      labels,
+      setLabels,
     }}>
       {props.children}
     </GlobalContext.Provider>
